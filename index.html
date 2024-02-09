@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lixi deeee</title>
+    <title>Lixiiiii 🥰🥰🥰</title>
+
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +23,7 @@
             background-image: url('assets/red-bg.jpg');
             background-position: center;
             background-size: cover;
-            background-repeat: no-repeat;
+            /* background-repeat: no-repeat; */
             height: 100vh;
             width: 100vw;
             display: grid;
@@ -29,6 +31,11 @@
         }
 
         main {
+            @media (width <=900px) {
+                /* tablet */
+                max-width: 100%;
+            }
+
             max-width: 50%;
             width: 100%;
             padding: 20px;
@@ -55,7 +62,8 @@
         .buttons-container {
             width: 100%;
             margin-top: 24px;
-            padding: 0 100px;
+            /* padding: 0 100px; */
+            /* margin: 0 100px; */
             position: relative;
         }
 
@@ -64,34 +72,49 @@
             transition: left 0.75s;
             position: absolute;
         }
+
+        #button-no {
+            color: bisque;
+        }
+
+        #button-yes {
+            width: 120px
+        }
     </style>
 </head>
 
-<body>
+<body onload="documentOnLoad()">
     <main>
         <div class="greeting">
             <h2 class="title">Tết này lì xì Vưn nhé!</h2>
-            <img src="assets/greeting-2.png" alt="" style="margin-right: 150px;">
+            <img id="greeting-image" src="assets/greeting-2.png" alt="">
         </div>
         <div id="buttons-container" class="buttons-container">
-            <button id="button-no" type="button" class="btn btn-link" style="color:bisque; left: 100px"
-                onclick="clickNo()">Khum</button>
+            <button id="button-no" type="button" class="btn btn-link" onclick="clickNo()"
+                style="left: calc(0px)">Khum</button>
             <button id="button-yes" type="button" class="btn btn-warning" data-bs-toggle="modal"
-                data-bs-target="#exampleModal""
-                style=" left: 525px">OKIEEE</button>
+                data-bs-target="#exampleModal" style="left: calc(100% - 120px)" onmouseover="onMouseOverYes()"
+                onmouseleave="onMouseLeaveYes()">OKIEEE</button>
         </div>
     </main>
 
+    <iframe src="assets/250-milliseconds-of-silence.mp3" autoplay id="audio" style="display: none"></iframe>
+
+    <audio id="main-audio" controls autoplay loop style="display: none;">
+        <source src="assets/bg-music.mp3" type="audio/mp3">
+    </audio>
+
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body">
                     <div>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div>
+                    <div style="display: flex; align-items: center; flex-direction: column; gap: 16px">
                         <h2 style="text-align: center; margin-bottom: 16px;">Cám ơn bạn iu nhiều nhá!</h2>
+                        <img src="assets/dog-dog-dance.gif" alt="" style="width: 75%;">
                         <img src="assets/momo.jpg" alt="" style="width: 100%">
                     </div>
                 </div>
@@ -104,21 +127,29 @@
         crossorigin="anonymous"></script>
 
     <script>
+        function documentOnLoad() {
+            setInterval(() => playAudio(), 500);
+        }
+
         let clickNoTimes = 1;
         function clickNo() {
+            playAudio();
             clickNoTimes++;
+
+            const greetingImg = document.getElementById("greeting-image");
+            greetingImg.src = "assets/angry.png"
 
             const noButton = document.getElementById("button-no");
             const yesButton = document.getElementById("button-yes");
 
             if (clickNoTimes === 2) {
-                noButton.style.left = '525px';
+                noButton.style.left = 'calc(100% - 105px)';
 
-                yesButton.style.left = '100px';
+                yesButton.style.left = '0px';
             }
 
             if (clickNoTimes === 3) {
-                yesButton.style.left = 'calc(50% - 80px)';
+                yesButton.style.left = 'calc(50% - 60px)';
                 yesButton.style.top = '25px';
                 noButton.style.left = '-50px'
 
@@ -134,14 +165,27 @@
             if (clickNoTimes === 4) {
                 // hide click no
                 noButton.style.display = "none";
-                yesButton.style.left = 'calc(50% - 80px)';
+                yesButton.style.left = 'calc(50% - 60px)';
                 yesButton.style.top = '35px';
             }
+
         }
 
+        function onMouseOverYes() {
+            const greetingImg = document.getElementById("greeting-image");
+            greetingImg.src = "assets/thank-you-2.png"
+        }
 
-        function clickYes() {
-            console.log("YES");
+        function onMouseLeaveYes() {
+            const greetingImg = document.getElementById("greeting-image");
+            greetingImg.src = "assets/angry.png"
+        }
+
+        function playAudio() {
+            const audio = document.getElementById("main-audio");
+            if (audio.paused) {
+                audio.play();
+            }
         }
     </script>
 </body>
